@@ -1,6 +1,6 @@
 #include <avr/pgmspace.h>
 
-const PROGMEM char vkeys[32] = "abcdefghijklmnopqrstuvwxyz      ";
+const PROGMEM char vkeys[32] = "abcdefghijklmnopqrstuvwxyz     \n";
 const char PROGMEM trip[] = "ask=biz=cdj=dev=eye=faq=gap=her=ifs=joy=kit=law=max=nil=own=pad=qua=rig=she=tmi=use=vox=web=xtc=you=zen=";
 const char PROGMEM words[] = "latency=agony=memory=envy=identity=authority=certainty=transparency=analogy=conformity=fragility=serenity=tenacity=practicality=humility=epiphany=complexity=simplicity=normality=absurdity=anxiety=sobriety=urgency=emergency=ability=utility=affinity=concurrency=sympathy=apology=empathy=unity=personality=mentality=hostility=expectancy=morality=complacency=hilarity=indignity=humanity=fallacy=atrocity=severity=priority=necessity=reality=actuality=mobility=possibility=responsibility=availability=camaraderie=policy=ubiquity=conspiracy=harmony=family=secrecy=credibility=telepathy=legality=physicality=anonymity=reciprocity=immortality=curiosity=notability=plausibility=deniability=vulnerability=security=incredulity=integrity=antipathy=solidarity=energy=entropy=gravity=density=technology=ecstasy=mimicry=destiny=enmity=amnesty=vanity=tragedy=comedy=idolatry=prophecy=agency=divinity=virtuosity=subtlety=delivery=liberty=anatomy=contingency=dependency=civility=liability=externality=monopoly=society=nobility=democracy=autocracy=similarity=individuality=objectivity=subjectivity=serendipity=synchronicity=ideology=duplicity=obscurity=symbology=ideality=popularity=celebrity=notoriety=fatality=brutality=biology=pathology=specificity=generality=futility=radicality=rationality=generosity=sensibility=fantasy=anomaly=idiopathy=novelty=tendency=formality=rigidity=finality=enemy=immutability=iniquity=superficiality=honesty=solidity=fidelity=sensitivity=frigidity=duality=causality=anisotropy=familiarity=scarcity=variety=fertility=vitality=primality=centrality=frivolity=exclusivity=animosity=hospitality=reflexivity=suitability=selectivity=matrimony=accuracy=uniformity=savagery=villainy=privacy=validity=posterity=history=irony=originality=ontology=theology=virality=quotability=predictability=dependability=stability=equity=generativity=regularity=ambiguity=discrepancy=frequency=modality=chronology=autonomy=deformity=dexterity=numerosity=flexibility=nativity=gentility=decency=community=naturality=warranty=damnability=cruelty=genealogy=opacity=spontaneity=duty=chivalry=regency=majority=minority=anarchy=monarchy=ordinality=cardinality=dichotomy=inanity=relativity=positivity=negativity=pity=narrativity=naivete=irritabiity=ferocity=apathy=supremacy=polarity=subsidy=visibility=ethnicity=morphology=etymology=antiquity=futurology=intimacy=sanity=mockery=flattery=psychopathy=sociopathy=safety=morbidity=infancy=maturity=monstrosity=presentability=neutrality=potency=insanity=pedantry=diversity=bigotry=";
 
@@ -84,7 +84,7 @@ void cortex(){
 
 void cerebellum() {
   byte vcode = random(0,255) % 256;
-  if(vcode < 64)
+  if(vcode < 32)
   Serial.write(pgm_read_byte_near(vkeys + vcode%32)); 
 }
 
