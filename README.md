@@ -1,2 +1,5 @@
 # cerebellum
- Arduino interface for HyperDope-compatible AI
+
+Arduino-based interface for HyperDope-compatible AI.
+
+Functions as a virtual USB keyboard and mouse.
