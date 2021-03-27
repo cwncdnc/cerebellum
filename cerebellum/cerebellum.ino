@@ -121,17 +121,13 @@ void setup() {
 
 void loop() {
     burst();delayMicroseconds(random(64,4096));
-    unsigned int packet = analogRead(A1) + 81;
-    Serial.print(packet);
-    randomSeed((entropy / packet)%(256*256));
+    unsigned int packet = abs(analogRead(A1)) + 81;
+    randomSeed(entropy / packet);
     entropy = random(0,255);entropy *=256;
     entropy += random(0,255);entropy *=256;
     entropy += random(0,255);entropy *=256;
     entropy += random(0,255);
-    randomSeed(entropy%(256*256));
     delay(31);
-    Serial.print("\tOut: \t"); 
     cortex();
     cerebellum();
-    Serial.print("\n");
 }
