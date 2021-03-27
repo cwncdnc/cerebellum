@@ -1,3 +1,7 @@
+#include <StaticThreadController.h>
+#include <Thread.h>
+#include <ThreadController.h>
+
 /* BN: Unknown board
 VID: 1A86
 PID: 7523
