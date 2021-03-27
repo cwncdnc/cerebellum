@@ -9,7 +9,7 @@
 pRNG prng;
 
 void cerebellum(){
-  int vcode = prng.getRndInt();
+  unsigned int vcode = prng.getRndInt();
   switch(vcode){
     
     default:break;
