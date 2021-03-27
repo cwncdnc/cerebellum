@@ -2,6 +2,7 @@
 VID: 1A86
 PID: 7523
 SN: Upload any sketch to obtain it
+avrdude: Device signature = 0x1e950f (probably m328p)
  */
 
 void setup() {
