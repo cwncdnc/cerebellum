@@ -1,4 +1,7 @@
 #include <avr/pgmspace.h> 
+#include <pRNG.h>
+
+pRNG prng;
 
 const PROGMEM char vkeys[32] = "abcdefghijklmnopqrstuvwxyz      ";
 const char PROGMEM trip[] = "ask=biz=cdj=dev=eye=faq=gap=her=ifs=joy=kit=law=max=nil=own=pad=qua=rig=she=tmi=use=vox=web=xtc=you=zen=";
@@ -101,12 +104,12 @@ void ltripcycle(byte tripcode) {
     for(byte tern = 0;tern < 3;tern++){
       byte scan = 0;byte counter = 0;
       while(counter < tripcode){
-        if(pgm_read_byte_near(ltrip+scan)=='=')counter++;
+        if(pgm_read_byte_near(trip+scan)=='=')counter++;
         scan++;
       }
-      lcycle(pgm_read_byte_near(ltrip+scan)-97);scan++;
-      lcycle(pgm_read_byte_near(ltrip+scan)-97);scan++;
-      lcycle(pgm_read_byte_near(ltrip+scan)-97);scan++;
+      lcycle(pgm_read_byte_near(trip+scan)-97);scan++;
+      lcycle(pgm_read_byte_near(trip+scan)-97);scan++;
+      lcycle(pgm_read_byte_near(trip+scan)-97);scan++;
     }
 }
 
@@ -153,21 +156,17 @@ void rwordcycle(int wordcode){
 }
 
 void leftbrain(){
-  randomSeed(micros()/4);
-  lwordcycle(random(0,255));
+  lwordcycle(prng.getRndByte());
 }
 
 void rightbrain(){
-  randomSeed(micros()/4);
-  rwordcycle(random(0,255));
+  rwordcycle(prng.getRndByte());
 }
 
 void cerebellum() {
-  Serial.print("HELP\n");
-  randomSeed(micros());
-  unsigned int vcode = random(0,1024);
-  if(vcode<32)
-  Serial.write(pgm_read_byte_near(vkeys + vcode)); 
+  byte vcode = prng.getRndByte();
+  if(vcode<128)
+  Serial.write(pgm_read_byte_near(vkeys + vcode%32)); 
 }
 
 int last_cerebellum = 0;
@@ -181,8 +180,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-    if(last_cerebellum < (millis() - 81)){cerebellum();last_cerebellum = millis();}
-    if(last_leftbrain < (millis() - 31)){leftbrain();last_leftbrain = millis();}
+    if(last_cerebellum < (millis() - 31)){cerebellum();last_cerebellum = millis();}
+    if(last_leftbrain < (millis() - 81)){leftbrain();last_leftbrain = millis();}
     if(last_rightbrain < (millis() - 31)){rightbrain();last_rightbrain = millis();}
-    Serial.println(millis());
 }
