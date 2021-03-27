@@ -1,12 +1,10 @@
 #include <avr/pgmspace.h>
-#include <pRNG.h>
-
-pRNG prng;
 
 const PROGMEM char vkeys[32] = "abcdefghijklmnopqrstuvwxyz      ";
 const char PROGMEM trip[] = "ask=biz=cdj=dev=eye=faq=gap=her=ifs=joy=kit=law=max=nil=own=pad=qua=rig=she=tmi=use=vox=web=xtc=you=zen=";
 const char PROGMEM words[] = "latency=agony=memory=envy=identity=authority=certainty=transparency=analogy=conformity=fragility=serenity=tenacity=practicality=humility=epiphany=complexity=simplicity=normality=absurdity=anxiety=sobriety=urgency=emergency=ability=utility=affinity=concurrency=sympathy=apology=empathy=unity=personality=mentality=hostility=expectancy=morality=complacency=hilarity=indignity=humanity=fallacy=atrocity=severity=priority=necessity=reality=actuality=mobility=possibility=responsibility=availability=camaraderie=policy=ubiquity=conspiracy=harmony=family=secrecy=credibility=telepathy=legality=physicality=anonymity=reciprocity=immortality=curiosity=notability=plausibility=deniability=vulnerability=security=incredulity=integrity=antipathy=solidarity=energy=entropy=gravity=density=technology=ecstasy=mimicry=destiny=enmity=amnesty=vanity=tragedy=comedy=idolatry=prophecy=agency=divinity=virtuosity=subtlety=delivery=liberty=anatomy=contingency=dependency=civility=liability=externality=monopoly=society=nobility=democracy=autocracy=similarity=individuality=objectivity=subjectivity=serendipity=synchronicity=ideology=duplicity=obscurity=symbology=ideality=popularity=celebrity=notoriety=fatality=brutality=biology=pathology=specificity=generality=futility=radicality=rationality=generosity=sensibility=fantasy=anomaly=idiopathy=novelty=tendency=formality=rigidity=finality=enemy=immutability=iniquity=superficiality=honesty=solidity=fidelity=sensitivity=frigidity=duality=causality=anisotropy=familiarity=scarcity=variety=fertility=vitality=primality=centrality=frivolity=exclusivity=animosity=hospitality=reflexivity=suitability=selectivity=matrimony=accuracy=uniformity=savagery=villainy=privacy=validity=posterity=history=irony=originality=ontology=theology=virality=quotability=predictability=dependability=stability=equity=generativity=regularity=ambiguity=discrepancy=frequency=modality=chronology=autonomy=deformity=dexterity=numerosity=flexibility=nativity=gentility=decency=community=naturality=warranty=damnability=cruelty=genealogy=opacity=spontaneity=duty=chivalry=regency=majority=minority=anarchy=monarchy=ordinality=cardinality=dichotomy=inanity=relativity=positivity=negativity=pity=narrativity=naivete=irritabiity=ferocity=apathy=supremacy=polarity=subsidy=visibility=ethnicity=morphology=etymology=antiquity=futurology=intimacy=sanity=mockery=flattery=psychopathy=sociopathy=safety=morbidity=infancy=maturity=monstrosity=presentability=neutrality=potency=insanity=pedantry=diversity=bigotry=";
 
+unsigned long entropy = 0;
 byte weight[26][26] = {
                   {26,2,2,2,2,2,2,2,2,2,24,2,2,2,2,2,2,2,25,2,2,2,2,2,2,2},//A
                   {2,26,2,2,2,2,2,2,25,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,24},//B
@@ -35,7 +33,7 @@ byte weight[26][26] = {
                   {2,2,2,2,2,2,2,2,2,2,2,2,2,2,25,2,2,2,2,2,24,2,2,2,26,2},//Y
                   {2,2,2,2,25,2,2,2,2,2,2,2,2,24,2,2,2,2,2,2,2,2,2,2,2,26}};//Z
 
-void cycle(int input){  
+void cycle(int input){  //IMPORTANT NOTE: The only output channel from this algorithm is the varying execution time due to the "if" statements.
   byte select = 25;byte depth = 16;
   while (depth > 0){ //AFTER DIMENSIONAL SUBSTITUTION IS EXHAUSTED, RECOLLECTION IS HERS.
     int best=25;//SHE SELECTS THE HEAVIEST RETURN PATH.
@@ -81,20 +79,59 @@ void wordcycle(int wordcode){
 }
 
 void cortex(){
-  wordcycle(prng.getRndByte());
+  wordcycle(random(0,255) % 256);
 }
 
 void cerebellum() {
-  byte vcode = prng.getRndByte();
+  byte vcode = random(0,255) % 256;
   if(vcode < 64)
   Serial.write(pgm_read_byte_near(vkeys + vcode%32)); 
 }
 
+void burst(){
+  digitalWrite(A2,HIGH);
+  delayMicroseconds(16);
+  digitalWrite(A2,LOW);
+}
+
+void dump(){
+   for(int y = 0;y<26;y++)
+   for(int x = 0;x<26;x++)
+    {
+      Serial.print(weight[x][y]);Serial.print("\t");if(x==25)Serial.print("\n");
+    }
+    Serial.print("\n");
+}
+
+
+
 void setup() {
-  Serial.begin(9600);
+  //HC-SR04 ULTRASONIC PING
+  pinMode(A0,OUTPUT); //Gnd
+  pinMode(A1,INPUT); //Echo
+  pinMode(A2,OUTPUT);//Trig
+  pinMode(A3,OUTPUT);//Vcc
+  digitalWrite(A0,LOW);
+  digitalWrite(A2,LOW);
+  digitalWrite(A3,LOW);
+  delay(250);
+  digitalWrite(A3,HIGH);
+  Serial.begin(115200);
 }
 
 void loop() {
+    burst();delayMicroseconds(random(64,4096));
+    unsigned int packet = analogRead(A1) + 81;
+    Serial.print(packet);
+    randomSeed((entropy / packet)%(256*256));
+    entropy = random(0,255);entropy *=256;
+    entropy += random(0,255);entropy *=256;
+    entropy += random(0,255);entropy *=256;
+    entropy += random(0,255);
+    randomSeed(entropy%(256*256));
+    delay(31);
+    Serial.print("\tOut: \t"); 
     cortex();
     cerebellum();
+    Serial.print("\n");
 }
