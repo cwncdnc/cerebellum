@@ -1,5 +1,4 @@
-{
-	"aa" : "as a ",
+{	"aa" : "as a ",
 	"ab" : "about ",
 	"ac" : "actl ",
 	"ad" : "addt ",
@@ -466,13 +465,6 @@
 	"tx" : "transmit ",
 	"ty" : "thank you ",
 	"tz" : "t ",
-	"
-	
-	
-  "brb ": "be right back",
-  "d8": "it is %d(MMMM Do YYYY, h:mm:ss a) right now",
-  "e@": "email.me@carlinyuen.com",
-  "hbd": "Hey! Just wanted to wish you a happy birthday; hope you had a good one!",
-  "p@": "This is your final warning: %clip% ",
-  "sign@": "<strong>. Carlin</strong>\nChrome Extension Developer\n<a href=\"mailto:email.me@carlinyuen.com\">email.me@carlinyuen.com</a>"
+	"  " : "! ",
+	"xxx" : "[REDACTED] "
 }
