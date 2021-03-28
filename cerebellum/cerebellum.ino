@@ -116,7 +116,7 @@ void setup() {
   digitalWrite(A3,LOW);
   delay(250);
   digitalWrite(A3,HIGH);
-  Serial.begin(115200);
+  Serial.begin(38400);
 }
 
 void loop() {
