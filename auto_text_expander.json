@@ -129,6 +129,7 @@
 	"ex": "extra ",
 	"ey": "every ",
 	"ez": "e ",
+	"f": "f ",
 	"ga": "good at ",
 	"gb": "goodbye ",
 	"gc": "grace ",
@@ -388,6 +389,7 @@
 	"px": "pvp ",
 	"py": "pay ",
 	"pz": "p ",
+	"q": "q ",
 	"ra": "raw ",
 	"rb": "right back ",
 	"rc": "race ",
@@ -465,5 +467,11 @@
 	"tw": "twice ",
 	"tx": "transmit ",
 	"ty": "thank you ",
-	"tz": "t "
+	"tz": "t ",
+	"u": "u ",
+	"v": "v ",
+	"w": "w ",
+	"x": "x ",
+	"y": "y ",
+	"z": "z "
 }
